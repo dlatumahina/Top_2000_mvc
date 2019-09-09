@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Top_2000_mvc.Models.Song>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+	<tr>
+		<th></th>
+		<th>
+			@Html.DisplayNameFor(model => model.titel)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.jaar)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Artiest.naam)
+		</th>
+		<th></th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model) {
+		<tr>
+			<td>
+				<span>
+					@if (File.Exists(@"C:\Users\Twan.DESKTOP-EGNS0QB\source\repos\Top-2000-mvc\Top 2000 mvc\Content\images\songs\" + item.songid + ".jpg")) { 
+						<img alt="@(item.titel)" class="lijstfoto" src="~/Content/images/songs/@(item.songid).jpg" />
+					}
+				</span>
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.titel)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.jaar)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Artiest.naam)
+			</td>
+			<td>
+				@Html.ActionLink("Gemiddelde notering", "Average", new { SongId = item.songid }) <br /> 
+				@Html.ActionLink("Posities per jaar", "Positie", new { SongId = item.songid })
+			</td>
+			<td>
+				@if (ViewContext.HttpContext.User.IsInRole("Beheerder"))
+				{
+					@Html.ActionLink("Edit | ", "Edit", new { id = item.songid })
+					@Html.ActionLink("Details | ", "Details", new { id = item.songid })
+					@Html.ActionLink("Delete", "Delete", new { id = item.songid })
+				}
+			</td>
+		</tr>
+	}
+
+</table>
